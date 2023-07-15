@@ -13,11 +13,12 @@ class HBNBCommand(cmd.Cmd):
         """
         EXit the program on OF (Ctrl + D)
         """
+        print("")
         return True
 
     def emptyline(self):
         """
-        Donothing when empty line is entered
+        Do nothing when empty line is entered
         """
         pass
 
