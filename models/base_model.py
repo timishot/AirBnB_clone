@@ -1,4 +1,4 @@
-from models import storage
+import models
 from uuid import uuid4
 from datetime import datetime
 
@@ -13,21 +13,21 @@ class BaseModel:
         if len(kwargs) != 0:
             for k, v in kwargs.items():
                 if k == 'created_at' or k == 'updated_at':
-                    setattr(self, k, datetime.strptime(v, iso_format))
+                    self.__dict__[k] = datetime.strptime(v, iso_format)
                 else:
-                    setattr(self, k, v)
+                    self.__dict__[k] = v
         else:
-            storage.new(self)
+            models.storage.new(self)
 
     def save(self):
         self.updated_at = datetime.now()
-        storage.save()
+        models.storage.save()
 
     def to_dict(self):
         new_dict = self.__dict__.copy()
-        new_dict['__class__'] = self.__class__.__name__
-        new_dict['created_at'] = self.created_at.isoformat()
-        new_dict['updated_at'] = self.updated_at.isoformat()
+        new_dict["__class__"] = self.__class__.__name__
+        new_dict["created_at"] = self.created_at.isoformat()
+        new_dict["updated_at"] = self.updated_at.isoformat()
         return new_dict
 
     def __str__(self):

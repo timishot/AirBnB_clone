@@ -23,25 +23,30 @@ class FileStorage:
         key = "{}.{}".format(type(obj).__name__, obj.id)
         FileStorage.__objects[key] = obj
 
-    def save(self, obj = None):
-        list_obj = [o.to_dictionary() for o in FileStorage.__objects.values()]
+    def save(self):
+        obj_dict = {obj: FileStorage.__objects[obj].to_dict() 
+                    for obj in FileStorage.__objects.keys()}
         try:
             with open(FileStorage.__file_path, "w") as file:
-                json.dump(list_obj, file)
+                json.dump(obj_dict, file)
         except FileNotFoundError:
-            return []
+            return 
 
     def reload(self):
         if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, "r") as file:
-                data = json.load(file)
-                FileStorage.__object = {
+                obj_dict = json.load(file)
+                if isinstance(obj_dict, list):
+                    # Handle the case when obj_dict is a list
+                    FileStorage.__objects = {}
+                else:
+                   FileStorage.__objects= {
                         key: self.create_instance_from_data(key, obj_data)
-                        for key, obj_data in data.items()
+                        for key, obj_data in obj_dict.items()
                         }
         else:
             # Handle the case when the file doen't exist
-            return []
+            return 
 
     def create_instance_from_data(self, key, obj_data):
         class_name = obj_data.get('__class__')
