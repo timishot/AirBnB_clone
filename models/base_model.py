@@ -34,4 +34,3 @@ class BaseModel:
         return "[{}] ({}) {}".format(
             self.__class__.__name__, self.id, self.__dict__
         )
-
