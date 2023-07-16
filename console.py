@@ -4,13 +4,14 @@ import cmd
 import sys
 from models.base_model import BaseModel
 from models import storage
-
+from models.user import User
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
     model_classes = {
-            "BaseModel": BaseModel
+            "BaseModel": BaseModel,
+            "User" : User
             }
 
     def do_create(self, line):
@@ -87,7 +88,7 @@ class HBNBCommand(cmd.Cmd):
 
         if len(args) == 0:
             objects = storage.all().values()
-        elif args[0].lower() not in self.model_classes:
+        elif args[0] not in self.model_classes:
             print("** class doesn't exist **")
             return
         else:
