@@ -1,16 +1,14 @@
 #!/usr/bin/python3
-
+"""Defines the file storage """
 import json
 import os
 from models.base_model import BaseModel
 from models.user import User
-from models.state import  State
+from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-
-"""Defines the FileStorage class."""
 
 
 class FileStorage:
@@ -30,13 +28,13 @@ class FileStorage:
         FileStorage.__objects[key] = obj
 
     def save(self):
-        obj_dict = {obj: FileStorage.__objects[obj].to_dict() 
+        obj_dict = {obj: FileStorage.__objects[obj].to_dict()
                     for obj in FileStorage.__objects.keys()}
         try:
             with open(FileStorage.__file_path, "w") as file:
                 json.dump(obj_dict, file)
         except FileNotFoundError:
-            return 
+            return
 
     def reload(self):
         if os.path.exists(FileStorage.__file_path):
@@ -46,13 +44,13 @@ class FileStorage:
                     # Handle the case when obj_dict is a list
                     FileStorage.__objects = {}
                 else:
-                   FileStorage.__objects= {
-                        key: self.create_instance_from_data(key, obj_data)
-                        for key, obj_data in obj_dict.items()
-                        }
+                    FileStorage.__objects = {
+                           key: self.create_instance_from_data(key, obj_data)
+                           for key, obj_data in obj_dict.items()
+                                            }
         else:
             # Handle the case when the file doen't exist
-            return 
+            return
 
     def create_instance_from_data(self, key, obj_data):
         class_name = obj_data.get('__class__')
