@@ -127,8 +127,8 @@ class HBNBCommand(cmd.Cmd):
                 objects = [obj for obj in storage.all().values()
                           if obj.__class__.__name__ == class_name]
                 print([str(obj) for obj in objects])
-            elif args[1] == "count":
-                count = len(self.model_classes[class_name].all())
+            elif args[1] == "count()":
+                count = sum(1 for obj in storage.all().values() if obj.__class__.__name__ == class_name)
                 print(count)
         else:
             pass
