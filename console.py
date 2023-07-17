@@ -96,18 +96,36 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, line):
         """show all the object stored in the storage"""
         args = line.split()
-        objects = []
-
+        
         if len(args) == 0:
             objects = storage.all().values()
+            print([str(obj) for obj in objects])
         elif args[0] not in self.model_classes:
             print("** class doesn't exist **")
-            return
         else:
             class_name = args[0]
-            objects = [obj for obj in storage.all().values()
-                       if obj.__class__.__name__ == class_name]
-        print([str(obj) for obj in objects])
+            if hasattr(self.model_classes[class_name], 'all'):
+                instances = self.model_classes[class_name].all()
+                print(instances)
+            
+            else:
+                class_name = args[0]
+                objects = [obj for obj in storage.all().values()
+                        if obj.__class__.__name__ == class_name]
+                print([str(obj) for obj in objects])
+    def default(self, line):
+        args = line.split(".")
+        if len(args) == 0:
+            return
+        class_name =args[0]
+        if class_name not in self.model_classes:
+            print(" class doesn't exists **")
+            return
+        if len(args) == 2:
+            if args[1] == "all":
+                objects = [obj for obj in storage.all().values()
+                          if obj.__class__.__name__ == class_name]
+                print([str(obj) for obj in objects])
 
     def do_update(self, line):
         """update the storage"""
