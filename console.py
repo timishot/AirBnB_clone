@@ -93,9 +93,9 @@ class HBNBCommand(cmd.Cmd):
 
         del storage.all()[key]
         storage.save()
-
+    
     def do_all(self, line):
-        """show all the object stored in the storage"""
+        #show all the object stored in the storage
         args = line.split()
         
         if len(args) == 0:
@@ -123,7 +123,7 @@ class HBNBCommand(cmd.Cmd):
             print(" class doesn't exists **")
             return
         if len(args) == 2:
-            if args[1] == "all":
+            if args[1] == "all()":
                 objects = [obj for obj in storage.all().values()
                           if obj.__class__.__name__ == class_name]
                 print([str(obj) for obj in objects])
