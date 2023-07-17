@@ -2,6 +2,7 @@
 """Defines the HBnB console."""
 import cmd
 import sys
+import re
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
@@ -115,6 +116,8 @@ class HBNBCommand(cmd.Cmd):
                         if obj.__class__.__name__ == class_name]
                 print([str(obj) for obj in objects])
     def default(self, line):
+        #args = re.findall('[a-zA-Z_]+|[\"].+?[\"]', line)
+        #args[1] =args[1].replace('.(', '')
         args = line.split(".")
         if len(args) == 0:
             return
@@ -130,6 +133,15 @@ class HBNBCommand(cmd.Cmd):
             elif args[1] == "count()":
                 count = sum(1 for obj in storage.all().values() if obj.__class__.__name__ == class_name)
                 print(count)
+            elif args[1] == "show()":
+                print("** instance id missing **")
+        elif len(args) == 3 and args[1] =="show":
+            instance_id = args[2].strip('()"')
+            key = "{}.{}".format(class_name, instance_id)
+            if key in storage.all():
+                print(storage.all()[key])
+            else:
+                print("** no instance found **")
         else:
             pass
 
