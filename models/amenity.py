@@ -6,6 +6,4 @@ from models.base_model import BaseModel
 class Amenity(BaseModel):
     """initialize the class"""
 
-
     name = ""
-
