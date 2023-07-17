@@ -55,6 +55,7 @@ class HBNBCommand(cmd.Cmd):
 
         if len(args) < 2:
             print("** instance id missing **")
+            return
         elif len(args) == 2:
             instance_id = args[1]
 
