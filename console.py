@@ -133,15 +133,14 @@ class HBNBCommand(cmd.Cmd):
             elif args[1] == "count()":
                 count = sum(1 for obj in storage.all().values() if obj.__class__.__name__ == class_name)
                 print(count)
-            elif args[1] == "show()":
-                print("** instance id missing **")
-        elif len(args) == 3 and args[1] =="show":
-            instance_id = args[2].strip('()"')
-            key = "{}.{}".format(class_name, instance_id)
-            if key in storage.all():
-                print(storage.all()[key])
             else:
-                print("** no instance found **")
+                instance_id = args[1].replace("show(", '').replace(")", '')
+                key = "{}.{}".format(class_name, instance_id)
+                instance = storage.all().get(key)
+                if instance:
+                    print(instance)
+                else:
+                    print("** no instance found **")
         else:
             pass
 
