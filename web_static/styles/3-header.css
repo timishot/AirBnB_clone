@@ -1,7 +1,31 @@
 header{
-    color: #fff;
+    color: #1b1919;
     height: 70px;
     width: 100%;
-    border-bottom: 1px #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+header .logo{
+    background-image: url(/images/icon.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+    margin-left: 20px;
+}
+
+header div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header div span{
+    margin-left: 90px;
+    font-weight: bold;
+    font-size: 18px;
 }
 
